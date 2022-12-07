@@ -1,24 +1,23 @@
 package jm.task.core.jdbc;
 
-import jm.task.core.jdbc.model.User;
-import jm.task.core.jdbc.util.Util;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import jm.task.core.jdbc.service.UserService;
+import jm.task.core.jdbc.service.UserServiceImpl;
 
 public class Main {
     public static void main(String[] args) {
-        SessionFactory sessionFactory = Util.getSession();
-
-        Session session = null;
-        // === CREATE ===
-        session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
-        User user = new User("Alex", "Sadovnick", (byte) 42);
-        System.out.println(user);
-        session.save(user);
-        System.out.println(user);
-        session.getTransaction().commit();
-
-        sessionFactory.close();
+        UserService userService = new UserServiceImpl();
+        userService.createUsersTable();
+        userService.saveUser("Alex", "SadovNick", (byte) 42);
+        userService.saveUser("KAtya", "SadovNick", (byte) 7);
+        System.out.println("Add 2 users");
+        userService.getAllUsers().forEach(System.out::println);
+        System.out.println("Remove id 1");
+        userService.removeUserById(1);
+        userService.getAllUsers().forEach(System.out::println);
+        System.out.println("table truncate");
+        userService.cleanUsersTable();
+        userService.getAllUsers().forEach(System.out::println);
+        System.out.println("table delete");
+        userService.dropUsersTable();
     }
 }

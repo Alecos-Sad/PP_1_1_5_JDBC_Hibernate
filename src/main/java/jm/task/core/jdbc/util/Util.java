@@ -28,9 +28,8 @@ public class Util {
     }
 
     public static SessionFactory getSession(){
-        SessionFactory sessionFactory = new Configuration()
+        return new Configuration()
                 .addAnnotatedClass(User.class)
                 .buildSessionFactory();
-        return sessionFactory;
     }
 }
